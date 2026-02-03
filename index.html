@@ -16,7 +16,6 @@
 
         body {
             background: linear-gradient(180deg, var(--light-pink) 0%, var(--white) 100%);
-            /* Using the handmade font */
             font-family: 'Dancing Script', cursive;
             display: flex;
             flex-direction: column;
@@ -28,7 +27,6 @@
             text-align: center;
         }
 
-        /* Floating Hearts */
         .heart {
             position: absolute;
             color: var(--pink);
@@ -47,7 +45,7 @@
 
         h1 {
             color: var(--dark-pink);
-            font-size: 3rem; /* Larger for the handmade font */
+            font-size: 3rem;
             padding: 0 20px;
             margin-bottom: 10px;
             z-index: 5;
@@ -78,7 +76,7 @@
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            font-family: 'Pacifico', cursive; /* Handmade style for buttons too */
+            font-family: 'Pacifico', cursive;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
             touch-action: none;
         }
@@ -92,7 +90,7 @@
         #noBtn {
             background-color: #94a3b8;
             color: white;
-            transition: all 0.2s ease; /* Smooth "scooting" movement */
+            transition: all 0.15s ease; /* Faster transition for better evasion */
         }
 
         @keyframes pulse {
@@ -106,7 +104,6 @@
         .success-content img {
             width: 280px;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             margin-top: 20px;
         }
     </style>
@@ -119,7 +116,7 @@
         
         <div class="btn-container">
             <button id="yesBtn" onclick="celebrate()">YES</button>
-            <button id="noBtn">NO</button>
+            <button id="noBtn" onclick="wrongChoice()">NO</button>
         </div>
 
         <div class="made-with-love">Made with love from Shawn ❤️</div>
@@ -137,7 +134,6 @@
         const askPage = document.getElementById('askPage');
         const successPage = document.getElementById('successPage');
 
-        // Background Hearts
         function createHearts() {
             const symbols = ['❤️', '💖', '💕', '✨', '🌸'];
             const heart = document.createElement('div');
@@ -151,10 +147,8 @@
         setInterval(createHearts, 400);
 
         function moveNoButton() {
-            // Detach button to move freely
             noBtn.style.position = 'fixed';
             
-            // Stay within screen bounds
             const padding = 60;
             const maxX = window.innerWidth - noBtn.offsetWidth - padding;
             const maxY = window.innerHeight - noBtn.offsetHeight - padding;
@@ -166,6 +160,13 @@
             noBtn.style.top = `${randomY}px`;
         }
 
+        // The "Fail-Safe" logic
+        function wrongChoice() {
+            alert("Oops! Wrong choice Leah, please try again! 😉");
+            moveNoButton();
+        }
+
+        // Listen for mouseover (Desktop) and touchstart (Mobile)
         noBtn.addEventListener('mouseover', moveNoButton);
         noBtn.addEventListener('touchstart', (e) => {
             e.preventDefault(); 
@@ -175,7 +176,6 @@
         function celebrate() {
             askPage.classList.add('hidden');
             successPage.classList.remove('hidden');
-            // Celebration burst
             for(let i=0; i<30; i++) {
                 setTimeout(createHearts, i * 50);
             }
